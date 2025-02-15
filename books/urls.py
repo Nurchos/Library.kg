@@ -5,8 +5,8 @@ from django.conf import settings
 
 urlpatterns = [
     path('', views.book_list_view, name='book_list'),
-    path('book_detail/<int:id>/', views.book_detail_view, name='film_detail'),
     path('', include('clothes.urls')),
+    path('book_detail/<int:id>/', views.book_detail_view, name='book_detail'),
 
     path('about_me/', views.about_me, name='about_me'),
     path('photo/', views.photo, name='photo'),
