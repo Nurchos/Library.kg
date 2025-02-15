@@ -26,3 +26,22 @@ class BooksModel(models.Model):
     class Meta:
         verbose_name = 'книга'
         verbose_name_plural = 'книги'
+
+
+class Review(models.Model):
+    STARS = (
+        ('🌟', '🌟'),
+        ('🌟🌟', '🌟🌟'),
+        ('🌟🌟🌟', '🌟🌟🌟'),
+        ('🌟🌟🌟🌟', '🌟🌟🌟🌟'),
+        ('🌟🌟🌟🌟🌟', '🌟🌟🌟🌟🌟'),
+    )
+    choice_book = models.ForeignKey(BooksModel, on_delete=models.CASCADE,
+                                    related_name='choice_book')
+    created_at = models.DateField(auto_now_add=True)
+
+    text_review = models.TextField(default='Крутой фильм')
+    stars = models.CharField(max_length=10, choices=STARS, default='🌟🌟🌟')
+
+    def __str__(self):
+        return f'{self.stars}--{self.choice_book.title}'
