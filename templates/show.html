@@ -6,14 +6,14 @@
 <!-- Контент с карточками -->
 <div class="container mt-4 content">
     <div class="row justify-content-center">
-        {% for i in book %}
+        {% for i in books %}
         <div class="col-md-4 mb-4">
             <div class="card" style="width: 100%;">
                 <img src="{{ i.image.url }}" class="card-img-top" alt="Обложка книги">
                 <div class="card-body">
                     <h5 class="card-title">{{ i.title }}</h5>
                     <p class="card-text">{{ i.created_at }}</p>
-                    <a href="/book_detail/{{ i.id }}/" class="btn btn-primary">Подробнее</a>
+                    <a href="/show_detail/{{ i.id }}/" class="btn btn-primary">Подробнее</a>
                 </div>
             </div>
         </div>

@@ -1,54 +1,65 @@
-import datetime
 from datetime import datetime
+from django.views import View
+from django.views.generic import ListView
 from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404
-from django.shortcuts import redirect
+from django.shortcuts import render, get_object_or_404, redirect
 from . import models, forms
+from django.views import generic
 
 
-def book_list_view(request):
-    if request.method == 'GET':
-        query = models.BooksModel.objects.all().order_by('-id')
-        context_object_name = {
-            'book': query,
-        }
-        return render(request, template_name='show.html',
-                      context=context_object_name)
+class BookListView(ListView):
+    model = models.BooksModel
+    template_name = 'show.html'
+    context_object_name = 'books'
+    ordering = ['-id']
 
 
-def book_detail_view(request, id):
-    if request.method == "GET":
-        form = forms.ReviwForm()
-        query = get_object_or_404(models.BooksModel, id=id)
-        context_object_name = {
-            'book_id': query,
-            'form': form
-        }
-        return render(request, template_name='show_detail.html',
-                      context=context_object_name)
-    elif request.method == "POST":
-        form = forms.ReviwForm(request.POST)
+class SearchView(generic.ListView):
+    template_name = 'show.html'
+    context_object_name = 'books'
+
+    def get_queryset(self):
+        query = self.request.GET.get('q', '').strip()
+        if query:
+            return models.BooksModel.objects.filter(title__icontains=query)
+        return models.BooksModel.objects.none()
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['q'] = self.request.GET.get('q', '')
+        return context
+
+
+class BookDetailView(View):
+    def get(self, request, id):
+        form = forms.ReviewForm()
+        book = get_object_or_404(models.BooksModel, id=id)
+        context = {'book_id': book, 'form': form}
+        return render(request, 'show_detail.html', context)
+
+    def post(self, request, id):
+        form = forms.ReviewForm(request.POST)
         if form.is_valid():
             review = form.save(commit=False)
             review.choice_book = get_object_or_404(models.BooksModel, id=id)
             review.save()
             return redirect('show_detail', id=id)
-        else:
-            return HttpResponse("Форма не валидна")
+        return HttpResponse("Форма не валидна")
 
 
-def about_me(request):
-    if request.method == 'GET':
+class AboutMeView(View):
+    def get(self, request):
         return HttpResponse(
-            'Здравствуйте! Добро пожаловать на мой веб-сайт.) Меня зовут Нурмухаммед и я люблю слушать музыку.')
+            'Здравствуйте! Добро пожаловать на мой веб-сайт.) Меня зовут Нурмухаммед и я люблю слушать музыку.'
+        )
 
 
-def photo(request):
-    if request.method == 'GET':
+class PhotoView(View):
+    def get(self, request):
         return HttpResponse("<img src='https://i1.sndcdn.com/artworks-g2OSrF3ZutlznKbX-XuNR5g-t500x500.jpg' />")
 
 
-def time(request):
-    if request.method == 'GET':
+class TimeView(View):
+    def get(self, request):
         now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         return HttpResponse(f"<h1>Текущее время:</h1><p>{now}</p>")
