@@ -34,7 +34,7 @@ class BookDetailView(View):
     def get(self, request, id):
         form = forms.ReviewForm()
         book = get_object_or_404(models.BooksModel, id=id)
-        context = {'book_id': book, 'form': form}
+        context = {'book': book, 'form': form}
         return render(request, 'show_detail.html', context)
 
     def post(self, request, id):
@@ -45,6 +45,7 @@ class BookDetailView(View):
             review.save()
             return redirect('show_detail', id=id)
         return HttpResponse("Форма не валидна")
+
 
 
 class AboutMeView(View):

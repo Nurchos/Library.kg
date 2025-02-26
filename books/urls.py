@@ -6,7 +6,7 @@ from . import views
 urlpatterns = [
     path('', views.BookListView.as_view(), name='book_list'),
     path('', include('clothes.urls')),
-    path('book_detail/<int:id>/', views.BookDetailView.as_view(), name='show_detail'),
+    path('show_detail/<int:id>/', views.BookDetailView.as_view(), name='show_detail'),
     path('about_me/', views.AboutMeView.as_view(), name='about_me'),
     path('photo/', views.PhotoView.as_view(), name='photo'),
     path('time/', views.TimeView.as_view(), name='time'),

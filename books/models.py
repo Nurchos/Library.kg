@@ -32,11 +32,11 @@ class BooksModel(models.Model):
 
 class Review(models.Model):
     STARS = (
-        ('🌟', '1 звезда'),
-        ('🌟🌟', '2 звезды'),
-        ('🌟🌟🌟', '3 звезды'),
-        ('🌟🌟🌟🌟', '4 звезды'),
-        ('🌟🌟🌟🌟🌟', '5 звезд'),
+        ('🌟', '🌟'),
+        ('🌟🌟', '🌟🌟'),
+        ('🌟🌟🌟', '🌟🌟🌟'),
+        ('🌟🌟🌟🌟', '🌟🌟🌟🌟'),
+        ('🌟🌟🌟🌟🌟', '🌟🌟🌟🌟🌟'),
     )
 
     choice_book = models.ForeignKey(BooksModel, on_delete=models.CASCADE, related_name='reviews')
