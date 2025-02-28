@@ -1,7 +1,9 @@
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView, LogoutView
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, ListView
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 from . import models, forms
 
 
@@ -18,18 +20,12 @@ class AuthLoginView(LoginView):
     def get_success_url(self):
         return reverse_lazy('users:user_list')
 
-    class AuthLoginView(LoginView):
-        form_class = AuthenticationForm
-        template_name = 'users/login.html'
-
-        def get_success_url(self):
-            return reverse_lazy('home')
-
 
 class AuthLogoutView(LogoutView):
     next_page = reverse_lazy('users:login')
 
 
+@method_decorator(cache_page(60 * 15), name='dispatch')  # Кэшируем на 15 минут
 class UsersListView(ListView):
     template_name = 'users/user_list.html'
     context_object_name = 'person'
