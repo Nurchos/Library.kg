@@ -1,5 +1,6 @@
 from django.http import HttpResponseBadRequest
 
+
 class WorkAgeMiddleware:
     def __init__(self, get_response):
         # Инициализация middleware
@@ -34,3 +35,4 @@ class WorkAgeMiddleware:
         # Далее передаем запрос дальше по цепочке middleware
         response = self.get_response(request)
         return response
+

@@ -1,0 +1,14 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <h1>Добавить ингредиент для "{{ recipe.title }}"</h1>
+
+  <form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Добавить ингредиент</button>
+  </form>
+
+  <br>
+  <a href="{% url 'recipe_detail' pk=recipe.pk %}">Вернуться к рецепту</a>
+{% endblock %}

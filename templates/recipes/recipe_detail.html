@@ -1,0 +1,20 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <h1>{{ recipe.title }}</h1>
+  <p>{{ recipe.description }}</p>
+
+  <h3>Ингредиенты:</h3>
+  <ul>
+    {% for ingredient in ingredients %}
+      <li>{{ ingredient.name }}: {{ ingredient.amount }}</li>
+    {% endfor %}
+  </ul>
+
+  <br>
+  <a href="{% url 'add_ingredient' pk=recipe.pk %}">Добавить ингредиент</a>
+  <br>
+  <a href="{% url 'recipe_list' %}">Вернуться к списку рецептов</a>
+  <br>
+  <a href="{% url 'delete_recipe' pk=recipe.pk %}" onclick="return confirm('Вы уверены, что хотите удалить этот рецепт?');">Удалить рецепт</a>
+{% endblock %}

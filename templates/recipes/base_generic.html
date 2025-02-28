@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Кулинарные рецепты</title>
+</head>
+<body>
+  <header>
+    <h1>Добро пожаловать в кулинарные рецепты!</h1>
+    <nav>
+      <a href="{% url 'recipe_list' %}">Список рецептов</a>
+    </nav>
+  </header>
+
+  <main>
+    {% block content %}
+    {% endblock %}
+  </main>
+</body>
+</html>

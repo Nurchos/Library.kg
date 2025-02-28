@@ -1,0 +1,14 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <h1>Все рецепты</h1>
+  <ul>
+    {% for recipe in recipes %}
+      <li>
+        <a href="{% url 'recipe_detail' pk=recipe.pk %}">{{ recipe.title }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+  <br>
+  <a href="{% url 'add_recipe' %}">Добавить новый рецепт</a>
+{% endblock %}
